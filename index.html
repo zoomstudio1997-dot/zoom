@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>زووم استديو - العروض ولوحة التحكم</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- لوحة الألوان والهوية البصرية الثابتة --- */
+        :root {
+            --bg-main: #0b0b0d;
+            --bg-card: #141417;
+            --gold: #dfb73c;
+            --gold-light: rgba(223, 183, 60, 0.1);
+            --text-main: #f3f3f5;
+            --text-secondary: #9aa0a6;
+            --danger: #ff4d4d;
+            --success: #2ecc71;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-bottom: 60px;
+        }
+
+        /* --- الهيدر العلوي --- */
+        header {
+            padding: 30px 15px 25px 15px;
+            text-align: center;
+            background: linear-gradient(to bottom, #000000, var(--bg-main));
+            border-bottom: 1px solid rgba(223, 183, 60, 0.15);
+        }
+
+        .brand-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .brand-logo span { color: var(--gold); }
+        header h1 { font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; }
+        header p { font-size: 0.9rem; color: var(--text-secondary); max-width: 90%; margin: 0 auto; }
+
+        /* --- حاوية المحتوى الأساسية للموبايل --- */
+        .main-content {
+            padding: 20px 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* --- كرت العرض --- */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        /* حاوية الصورة والمعاينة */
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            background-color: #222;
+            cursor: pointer;
+        }
+
+        .image-container img { width: 100%; height: 100%; object-fit: cover; }
+
+        .preview-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid rgba(223, 183, 60, 0.3);
+        }
+
+        .card-body { padding: 20px; }
+        .card-header-flex { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        
+        .offer-icon-box {
+            width: 40px;
+            height: 40px;
+            background-color: var(--gold-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .offer-title { font-size: 1.25rem; font-weight: 700; }
+        .offer-price { font-size: 1.4rem; color: var(--gold); font-weight: 700; margin-bottom: 15px; display: inline-block; }
+
+        .features-list { list-style: none; margin-bottom: 20px; }
+        .features-list li { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; }
+        .features-list li i { color: var(--gold); margin-top: 4px; font-size: 0.8rem; }
+
+        /* الأزرار تفاعلية */
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; }
+        .btn-main { display: flex; align-items: center; justify-content: center; gap: 8px; background-color: var(--gold); color: #000; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1rem; }
+        .btn-secondary { display: flex; align-items: center; justify-content: center; gap: 6px; background-color: transparent; color: var(--text-main); border: 1px solid rgba(255, 255, 255, 0.15); padding: 10px; border-radius: 12px; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+
+        /* أزرار الإدارة داخل الكرت */
+        .admin-card-actions {
+            display: flex;
+            gap: 10px;
+            padding: 0 20px 20px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 15px;
+            padding-top: 15px;
+        }
+        .btn-edit { flex: 1; background: none; border: 1px solid var(--gold); color: var(--gold); padding: 8px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-delete { flex: 1; background: none; border: 1px solid var(--danger); color: var(--danger); padding: 8px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+
+        /* --- النوافذ المنبثقة (Popups & Modals) --- */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease; padding: 15px;
+        }
+        .modal.active { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(223, 183, 60, 0.3);
+            border-radius: 16px; width: 100%; max-width: 450px;
+            padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal-title { font-size: 1.3rem; margin-bottom: 20px; color: var(--gold); text-align: center; }
+
+        /* عناصر حقول الإدخال بالفورم */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.9rem; margin-bottom: 6px; color: var(--text-secondary); }
+        .form-control {
+            width: 100%; background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+            padding: 12px; color: #fff; font-size: 0.95rem; outline: none;
+        }
+        .form-control:focus { border-color: var(--gold); }
+        .form-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-submit { flex: 2; background-color: var(--gold); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+        .btn-cancel { flex: 1; background: none; border: 1px solid rgba(255,255,255,0.2); color: var(--text-main); padding: 12px; border-radius: 8px; cursor: pointer; }
+
+        /* لوحة التحكم المعلقة أسفل شاشة المدير */
+        .admin-sticky-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: #1c1c21; border-top: 2px solid var(--gold);
+            padding: 12px; display: flex; justify-content: space-between; align-items: center;
+            z-index: 900; box-shadow: 0 -5px 15px rgba(0,0,0,0.4);
+        }
+
+        /* --- نافذة تكبير الصورة (LightBox) --- */
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); display: flex; align-items: center; justify-content: center; z-index: 1001; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .lightbox.active { opacity: 1; pointer-events: auto; }
+        .lightbox-img { max-width: 95%; max-height: 85vh; border-radius: 8px; }
+
+        /* --- أزرار التذييل والإدارة الافتراضية --- */
+        footer { text-align: center; margin: 30px 0; font-size: 0.8rem; color: var(--text-secondary); }
+        .btn-login-trigger { background: none; border: none; color: rgba(255,255,255,0.15); font-size: 0.8rem; margin-top: 15px; cursor: pointer; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-logo">ZOOM <span>STUDIO</span></div>
+        <h1>عروضنا الحصرية لتخليد لحظاتكم</h1>
+        <p>استمتع بأعلى دقة فوتوغرافية وسينمائية في الموصل</p>
+    </header>
+
+    <main class="main-content" id="offersContainer"></main>
+
+    <footer>
+        <p>© 2026 زووم استديو. جميع الحقوق محفوظة.</p>
+        <button class="btn-login-trigger" onclick="openLoginModal()">دخول الإدارة</button>
+    </footer>
+
+    <div class="admin-sticky-bar" id="adminBar" style="display: none;">
+        <span style="font-size: 0.9rem; font-weight: 700; color: var(--gold);"><i class="fa-solid fa-user-gear"></i> وضع إدارة الاستديو مفعّل</span>
+        <div style="display: flex; gap: 8px;">
+            <button class="btn-submit" style="padding: 6px 12px; font-size: 0.85rem;" onclick="openOfferModal()">إضافة عرض جديد</button>
+            <button class="btn-cancel" style="padding: 6px 12px; font-size: 0.85rem; border-color: var(--danger); color: var(--danger);" onclick="logoutAdmin()">خروج</button>
+        </div>
+    </div>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h3 class="modal-title">تسجيل دخول لوحة الإدارة</h3>
+            <div class="form-group">
+                <label>أدخل رمز الدخول السري:</label>
+                <input type="password" id="adminPasswordInput" class="form-control" placeholder="••••">
+            </div>
+            <div class="form-buttons">
+                <button class="btn-submit" onclick="verifyAdminPassword()">دخول</button>
+                <button class="btn-cancel" onclick="closeModal('loginModal')">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="offerModal">
+        <div class="modal-content">
+            <h3 class="modal-title" id="modalFormTitle">إضافة باقة عرض جديدة</h3>
+            <form id="offerForm" onsubmit="saveOfferData(event)">
+                <input type="hidden" id="editIndex" value="-1">
+                
+                <div class="form-group">
+                    <label>اسم الباقة / العرض:</label>
+                    <input type="text" id="formTitle" class="form-control" required placeholder="مثال: عرض الأعراس الملكي">
+                </div>
+                <div class="form-group">
+                    <label>السعر:</label>
+                    <input type="text" id="formPrice" class="form-control" required placeholder="مثال: 400,000 د.ع">
+                </div>
+                <div class="form-group">
+                    <label>رابط الصورة:</label>
+                    <input type="url" id="formImage" class="form-control" required placeholder="ضع رابط الصورة المباشر URL">
+                </div>
+                <div class="form-group">
+                    <label>رابط الموقع الجغرافي (Google Maps):</label>
+                    <input type="url" id="formLocation" class="form-control" required placeholder="رابط لوكيشن قوقل ماب">
+                </div>
+                <div class="form-group">
+                    <label>اختر أيقونة العرض (FontAwesome):</label>
+                    <select id="formIcon" class="form-control">
+                        <option value="fa-solid fa-heart">❤️ قلب (مناسب للأعراس)</option>
+                        <option value="fa-solid fa-camera">📷 كاميرا أساسية</option>
+                        <option value="fa-solid fa-camera-retro">🎞️ كاميرا كلاسيكية</option>
+                        <option value="fa-solid fa-cake-candles">🎂 كعكة (أعياد الميلاد)</option>
+                        <option value="fa-solid fa-wand-magic-sparkles">✨ سحر وبورتيريه</option>
+                        <option value="fa-solid fa-video">🎥 فيديو ومونتاج</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>تفاصيل وميزات العرض (اكتب كل ميزة في سطر منفصل):</label>
+                    <textarea id="formFeatures" class="form-control" rows="4" required placeholder="الميزة الأولى&#10;الميزة الثانية&#10;الميزة الثالثة"></textarea>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" class="btn-submit">حفظ وتثبيت العرض</button>
+                    <button type="button" class="btn-cancel" onclick="closeModal('offerModal')">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <img src="" alt="المعاينة المكبرة" class="lightbox-img" id="lightboxImg">
+    </div>
+
+    <script>
+        // =========================================================================
+        // 🔒 إعدادات الأمان: يمكنك تغيير رمز الدخول السري الافتراضي للاستديو من هنا
+        // =========================================================================
+        const ADMIN_SECRET_CODE = "19977"; // استبدل 1234 بأي رمز حماية تريده أنت
+        const WHATSAPP_NUMBER = "9647500000000"; // رقم الواتساب الخاص باستقبال الرسائل بالصيغة الدولية
+
+        // حالة تسجيل دخول المدير الحالية خلال تصفح الجلسة
+        let isAdminLoggedIn = false;
+
+        // الباقات الافتراضية الأولية في حال كانت ذاكرة المتصفح فارغة تماماً لأول مرة
+        const initialDefaultOffers = [
+            {
+                title: "باقة الأعراس الملكية",
+                price: "450,000 د.ع",
+                icon: "fa-solid fa-heart",
+                image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=600",
+                locationUrl: "https://maps.google.com",
+                features: ["تغطية سينمائية كاملة بدقة 4K", "جلسة تصوير فوتوغرافي خارجي مفتوحة", "ألبوم ديجيتال فاخر مقاس كبير + بوستر"]
+            },
+            {
+                title: "جلسة تصوير شخصية / بورتيريه",
+                price: "75,000 د.ع",
+                icon: "fa-solid fa-camera-retro",
+                image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600",
+                locationUrl: "https://maps.google.com",
+                features: ["تصوير داخلي بخلفيات متعددة", "إضاءة سينمائية متطورة وهندسة ملامح", "تسليم 15 صورة بتعديل بشرة دقيق Retouch"]
+            }
+        ];
+
+        // مصفوفة العروض النشطة بالموقع والتي يتم جلبها من الـ LocalStorage
+        let currentOffers = [];
+
+        // تحضير وتحميل البيانات عند فتح الصفحة مباشرة
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedData = localStorage.getItem('zoom_studio_offers');
+            if (storedData) {
+                currentOffers = JSON.parse(storedData);
+            } else {
+                currentOffers = initialDefaultOffers;
+                localStorage.setItem('zoom_studio_offers', JSON.stringify(currentOffers));
+            }
+            renderUI();
+        });
+
+        // بناء وعرض واجهة كروت العروض بالكامل على الشاشة للمستخدم والمدير
+        function renderUI() {
+            const container = document.getElementById('offersContainer');
+            container.innerHTML = '';
+
+            currentOffers.forEach((offer, index) => {
+                const messageText = `مرحباً زووم استديو، أود حجز واستفسار حول "${offer.title}".`;
+                const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(messageText)}`;
+
+                let featuresHTML = '';
+                offer.features.forEach(feat => {
+                    if(feat.trim() !== "") {
+                        featuresHTML += `<li><i class="fa-solid fa-circle-check"></i> <span>${feat}</span></li>`;
+                    }
+                });
+
+                // إذا كان المدير مسجل دخول، نقوم بتوليد أزرار التعديل والحذف أسفل الكرت
+                let adminControlsHTML = '';
+                if (isAdminLoggedIn) {
+                    adminControlsHTML = `
+                        <div class="admin-card-actions">
+                            <button class="btn-edit" onclick="initiateEditOffer(${index})"><i class="fa-solid fa-pen-to-square"></i> تعديل</button>
+                            <button class="btn-delete" onclick="deleteOffer(${index})"><i class="fa-solid fa-trash-can"></i> حذف</button>
+                        </div>
+                    `;
+                }
+
+                const cardHTML = `
+                    <div class="card">
+                        <div class="image-container" onclick="openLightbox('${offer.image}')">
+                            <div class="preview-badge"><i class="fa-solid fa-expand"></i> تكبير المعاينة</div>
+                            <img src="${offer.image}" alt="${offer.title}" loading="lazy">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-header-flex">
+                                <div class="offer-icon-box"><i class="${offer.icon}"></i></div>
+                                <h2 class="offer-title">${offer.title}</h2>
+                            </div>
+                            <span class="offer-price">${offer.price}</span>
+                            <ul class="features-list">${featuresHTML}</ul>
+                            <div class="action-buttons">
+                                <a href="${whatsappUrl}" target="_blank" class="btn-main"><i class="fa-brands fa-whatsapp"></i> احجز عبر الواتساب الآن</a>
+                                <a href="${offer.locationUrl}" target="_blank" class="btn-secondary"><i class="fa-solid fa-map-location-dot"></i> موقع جلسة التصوير / الاستديو</a>
+                            </div>
+                        </div>
+                        ${adminControlsHTML}
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        // --- إدارة النوافذ المنبثقة (Modals) ---
+        function openLoginModal() { document.getElementById('loginModal').classList.add('active'); document.getElementById('adminPasswordInput').focus(); }
+        function openOfferModal() { 
+            document.getElementById('offerForm').reset();
+            document.getElementById('editIndex').value = "-1";
+            document.getElementById('modalFormTitle').innerText = "إضافة باقة عرض جديدة";
+            document.getElementById('offerModal').classList.add('active'); 
+        }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        // التحقق من الرقم السري للمدير
+        function verifyAdminPassword() {
+            const input = document.getElementById('adminPasswordInput').value;
+            if (input === ADMIN_SECRET_CODE) {
+                isAdminLoggedIn = true;
+                closeModal('loginModal');
+                document.getElementById('adminBar').style.display = 'flex';
+                renderUI();
+                alert('تم تسجيل الدخول بنجاح! وضع الإدارة مفعّل الآن.');
+            } else {
+                alert('الرمز السري غير صحيح، حاول مجدداً.');
+            }
+            document.getElementById('adminPasswordInput').value = '';
+        }
+
+        // الخروج من وضع الإدارة
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminBar').style.display = 'none';
+            renderUI();
+        }
+
+        // حفظ بيانات النموذج (سواء إضافة جديدة أو تعديل كرت قائم)
+        function saveOfferData(event) {
+            event.preventDefault();
+            const index = parseInt(document.getElementById('editIndex').value);
+            
+            // تحويل النص المدخل بالميزات إلى مصفوفة عن طريق فصل الأسطر
+            const featuresArray = document.getElementById('formFeatures').value.split('\n');
+
+            const offerDataObject = {
+                title: document.getElementById('formTitle').value,
+                price: document.getElementById('formPrice').value,
+                image: document.getElementById('formImage').value,
+                locationUrl: document.getElementById('formLocation').value,
+                icon: document.getElementById('formIcon').value,
+                features: featuresArray
+            };
+
+            if (index === -1) {
+                // إضافة كرت جديد
+                currentOffers.push(offerDataObject);
+            } else {
+                // تعديل كرت موجود مسبقاً
+                currentOffers[index] = offerDataObject;
+            }
+
+            // تحديث الذاكرة المحلية وإعادة رسم الصفحة
+            localStorage.setItem('zoom_studio_offers', JSON.stringify(currentOffers));
+            closeModal('offerModal');
+            renderUI();
+        }
+
+        // جلب بيانات العرض وملئها بالنموذج لتعديلها
+        function initiateEditOffer(index) {
+            const offer = currentOffers[index];
+            document.getElementById('editIndex').value = index;
+            document.getElementById('formTitle').value = offer.title;
+            document.getElementById('formPrice').value = offer.price;
+            document.getElementById('formImage').value = offer.image;
+            document.getElementById('formLocation').value = offer.locationUrl;
+            document.getElementById('formIcon').value = offer.icon;
+            document.getElementById('formFeatures').value = offer.features.join('\n');
+
+            document.getElementById('modalFormTitle').innerText = "تعديل بيانات العرض الحالي";
+            document.getElementById('offerModal').classList.add('active');
+        }
+
+        // حذف عرض معين نهائياً
+        function deleteOffer(index) {
+            if (confirm("هل أنت متأكد من رغبتك في حذف هذا العرض نهائياً من المتصفح؟")) {
+                currentOffers.splice(index, 1);
+                localStorage.setItem('zoom_studio_offers', JSON.stringify(currentOffers));
+                renderUI();
+            }
+        }
+
+        // وظائف نظام المعاينة الفورية للصور (Lightbox)
+        function openLightbox(src) {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightboxImg').src = src;
+            lb.classList.add('active');
+        }
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+    </script>
+</body>
+</html>
