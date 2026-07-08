@@ -361,14 +361,6 @@
                     <input type="text" id="form-price-input" class="form-control" placeholder="مثال: 350,000 د.ع">
                 </div>
                 <div class="input-group">
-                    <label>مدة العرض</label>
-                    <input type="text" id="form-duration-input" class="form-control" placeholder="مثال: يوم واحد (6 ساعات)">
-                </div>
-                <div class="input-group">
-                    <label>تاريخ انتهاء العرض</label>
-                    <input type="date" id="form-date-input" class="form-control">
-                </div>
-                <div class="input-group">
                     <label>صور العرض (يمكنك اختيار صورة أو أكثر)</label>
                     <input type="file" id="form-images-input" class="form-control" multiple accept="image/*">
                     <small style="color: var(--text-muted); font-size: 11px;">سيتم حفظ الصور محلياً في المتصفح.</small>
@@ -394,7 +386,7 @@
     </div>
 
     <div class="fixed-bottom-actions">
-        <a href="https://wa.me/964XXXXXXXXXX" id="global-whatsapp" class="btn whatsapp-btn" target="_blank">
+        <a href="https://wa.me/9647701704078" id="global-whatsapp" class="btn whatsapp-btn" target="_blank">
             <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> تواصل معنا عبر واتساب
         </a>
     </div>
@@ -412,14 +404,15 @@
     </div>
 
     <script>
+        // الاستوديو برقم هاتفك المثبت
+        const STUDIO_PHONE = "9647701704078";
+
         // بيانات تجريبية أولية في حال كانت قاعدة البيانات المحلية فارغة
         const defaultOffers = [
             {
                 title: "عرض الأعراس المتكامل",
                 desc: "تصوير فوتوغرافي متكامل لجلسة العروسين مع ألبوم ديجيتال فاخر، وتصوير فيديو سينمائي بدقة 4K شامل المونتاج مع لقطات درون جوية.",
                 price: "450$",
-                duration: "يوم الزفاف بالكامل",
-                expiry: "2026-09-01",
                 visible: true,
                 images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=500"]
             },
@@ -427,8 +420,6 @@
                 title: "جلسة تصوير خارجية (Outdoor)",
                 desc: "جلسة تصوير احترافية في الهواء الطلق، اختيار موقع مميز، تسليم 25 صورة معدلة بالكامل بأعلى دقة ومعالجة ألوان سينمائية.",
                 price: "150$",
-                duration: "3 ساعات",
-                expiry: "2026-08-15",
                 visible: true,
                 images: ["https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=500"]
             }
@@ -499,9 +490,9 @@
             }
             sliderHtml += '</div>';
 
-            // رسالة الواتساب المخصصة للاستديو عند الحجز
+            // رسالة الواتساب المخصصة للاستديو عند الحجز برقمك الجديد
             const whatsappMessage = encodeURIComponent(`مرحباً ستديو زوم، أرغب في حجز أو الاستفسار عن عرض: ${offer.title}`);
-            const whatsappUrl = `https://wa.me/964XXXXXXXXXX?text=${whatsappMessage}`; // استبدل XXXXXXXXXX برقمك الفعلي
+            const whatsappUrl = `https://wa.me/${STUDIO_PHONE}?text=${whatsappMessage}`;
 
             target.innerHTML = `
                 ${sliderHtml}
@@ -511,14 +502,6 @@
                 <div class="detail-row">
                     <span>السعر الإجمالي</span>
                     <span style="font-weight:bold; font-size:16px;">${offer.price}</span>
-                </div>
-                <div class="detail-row">
-                    <span>مدة صلاحية الخدمة</span>
-                    <span>${offer.duration || 'غير محددة'}</span>
-                </div>
-                <div class="detail-row">
-                    <span>تاريخ انتهاء العرض</span>
-                    <span style="color: #ff4444;">${offer.expiry || 'ينتهي قريباً'}</span>
                 </div>
 
                 <div style="margin-top: 25px; display:flex; flex-direction:column; gap:10px;">
@@ -572,8 +555,6 @@
             const title = document.getElementById('form-title-input').value.trim();
             const desc = document.getElementById('form-desc-input').value.trim();
             const price = document.getElementById('form-price-input').value.trim();
-            const duration = document.getElementById('form-duration-input').value.trim();
-            const expiry = document.getElementById('form-date-input').value;
             const visible = document.getElementById('form-visible-input').checked;
             const editIndex = document.getElementById('edit-index').value;
 
@@ -583,7 +564,7 @@
             }
 
             const offerData = {
-                title, desc, price, duration, expiry, visible,
+                title, desc, price, visible,
                 images: uploadedImagesBase64.length > 0 ? uploadedImagesBase64 : (editIndex !== "" ? offers[editIndex].images : [])
             };
 
@@ -610,8 +591,6 @@
             document.getElementById('form-title-input').value = "";
             document.getElementById('form-desc-input').value = "";
             document.getElementById('form-price-input').value = "";
-            document.getElementById('form-duration-input').value = "";
-            document.getElementById('form-date-input').value = "";
             document.getElementById('form-visible-input').checked = true;
             document.getElementById('form-images-input').value = "";
             document.getElementById('cancel-edit-btn').style.display = "none";
@@ -653,8 +632,6 @@
             document.getElementById('form-title-input').value = offer.title;
             document.getElementById('form-desc-input').value = offer.desc;
             document.getElementById('form-price-input').value = offer.price;
-            document.getElementById('form-duration-input').value = offer.duration || '';
-            document.getElementById('form-date-input').value = offer.expiry || '';
             document.getElementById('form-visible-input').checked = offer.visible;
             
             document.getElementById('cancel-edit-btn').style.display = "block";
@@ -674,9 +651,8 @@
         // تغيير ترتيب العروض (صعوداً وهبوطاً)
         function moveOffer(index, direction) {
             const targetIndex = index + direction;
-            if (targetIndex < 0 || targetIndex >= offers.length) return; // الحماية من الخروج من الحدود
+            if (targetIndex < 0 || targetIndex >= offers.length) return;
             
-            // تبديل الأماكن
             const temp = offers[index];
             offers[index] = offers[targetIndex];
             offers[targetIndex] = temp;
@@ -686,7 +662,7 @@
             renderHomeOffers();
         }
 
-        // التشغيل المبدئي عند تحميل الصفحة لأول مرة
+        // التشغيل المبدئي عند تحميل الصفحة
         document.addEventListener("DOMContentLoaded", () => {
             renderHomeOffers();
         });
