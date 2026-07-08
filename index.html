@@ -1,836 +1,695 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="scroll-smooth">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ستديو زوم | عروض تعديل الصور الاحترافية</title>
-    <!-- SEO Optimization -->
-    <meta name="description" content="ستديو زوم - متخصصون في تعديل وتلوين وترميم الصور بأعلى جودة احترافية ولمسات سينمائية فريدة. تصفح أحدث عروضنا وتواصل معنا فورياً.">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js CDN for robust dynamic UI reactivity -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- Google Cairo Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Cairo', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            gold: '#d4af37',
-                            dark: '#050505',
-                            card: '#0c0c0e',
-                            border: '#1f1f23',
-                            grayText: '#a1a1aa'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <title>ستديو زوم | Studio Zoom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Modern aesthetic custom styles */
-        body {
-            background-color: #050505;
-            color: #ffffff;
+        :root {
+            --bg-color: #0a0a0a;
+            --surface-color: #121212;
+            --border-color: #262626;
+            --text-main: #ffffff;
+            --text-muted: #a3a3a3;
+            --accent-white: #ffffff;
+            --accent-black: #000000;
+            --whatsapp-color: #25D366;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: 'Cairo', sans-serif;
-            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 80px; /* مساحة لزر الواتساب الثابت */
         }
-        ::-webkit-scrollbar-track {
-            background: #050505;
+
+        /* الهيكل والتنظيم */
+        .container {
+            width: 100%;
+            max-width: 480px; /* حد أقصى ليناسب الهواتف بشكل مثالي */
+            margin: 0 auto;
+            padding: 20px;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #1f1f23;
-            border-radius: 10px;
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #d4af37;
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* بطاقات العروض */
+        .offers-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .offer-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .offer-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .offer-details-content {
+            padding: 15px;
+        }
+
+        .offer-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .offer-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .offer-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        /* الأزرار */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            text-decoration: none;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-white);
+            color: var(--accent-black);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+        }
+
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        /* صفحة التفاصيل */
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gallery-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 10px;
+            margin-bottom: 20px;
+            scrollbar-width: none;
+        }
+
+        .gallery-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-slider img {
+            width: 100%;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 0;
+            font-size: 14px;
+        }
+
+        .detail-row span:first-child {
+            color: var(--text-muted);
+        }
+
+        /* نافذة طلب رمز الإدارة (Modal) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-white);
+        }
+
+        /* لوحة الإدارة */
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .admin-item-row {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* الأزرار الثابتة في الأسفل */
+        .fixed-bottom-actions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+        }
+
+        .whatsapp-btn {
+            background-color: var(--whatsapp-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        .admin-login-trigger {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: underline;
         }
     </style>
 </head>
-<body x-data="zoomApp()" x-init="initApp()" class="selection:bg-brand-gold selection:text-black">
+<body>
 
-    <!-- --- HEADER NAVBAR --- -->
-    <header class="sticky top-0 z-40 bg-brand-dark/80 backdrop-blur-md border-b border-brand-border transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-11 h-11 rounded-full bg-white flex items-center justify-center border border-brand-border transition-all duration-500 group-hover:rotate-180 group-hover:bg-brand-gold">
-                    <!-- Elegant Camera Shutter SVG -->
-                    <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" />
-                        <circle cx="12" cy="12" r="3" />
-                        <path d="M12 2v4M12 18v4M2 12h4M18 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8" />
-                    </svg>
+    <div class="container">
+        <header>
+            <h1>ستديو زوم</h1>
+            <p>STUDIO ZOOM | توثيق اللحظات بأسلوب عصري</p>
+        </header>
+
+        <main id="home-page" class="page active">
+            <div class="offers-grid" id="offers-container">
                 </div>
-                <div>
-                    <span class="text-lg font-black tracking-widest block text-white group-hover:text-brand-gold transition-colors">ستديو زوم</span>
-                    <span class="text-[10px] text-brand-grayText tracking-widest block uppercase font-light">ZOOM STUDIO</span>
-                </div>
-            </a>
+        </main>
 
-            <!-- Search and Filter Bar Quick View -->
-            <div class="hidden md:flex items-center gap-4 bg-[#0d0d0f] border border-brand-border rounded-full px-4 py-1.5 w-96">
-                <svg class="w-4 h-4 text-brand-grayText" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                <input type="text" x-model="searchQuery" placeholder="ابحث عن عرض لتعديل الصور..." class="bg-transparent border-none text-xs text-white focus:outline-none w-full placeholder:text-zinc-600 font-semibold" />
-            </div>
-
-            <!-- Admin Entry & Links -->
-            <div class="flex items-center gap-3">
-                <button @click="openAdminModal()" class="flex items-center gap-1.5 px-4 py-2 rounded-full border border-neutral-800 text-xs font-semibold text-brand-grayText hover:text-white hover:border-white transition-all bg-[#0a0a0b]">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                    <span>لوحة الإدارة</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- --- HERO DISPLAY COVER --- -->
-    <section class="relative min-h-[45vh] lg:min-h-[55vh] flex items-center justify-center bg-brand-dark border-b border-brand-border overflow-hidden">
-        <!-- Abstract Dark Grid overlay -->
-        <div class="absolute inset-0 bg-[linear-gradient(to_right,#141414_1px,transparent_1px),linear-gradient(to_bottom,#141414_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-80 pointer-events-none"></div>
-        
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-gold/5 rounded-full filter blur-[100px] pointer-events-none animate-pulse"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full filter blur-[100px] pointer-events-none"></div>
-
-        <div class="max-w-4xl mx-auto px-4 py-12 text-center z-10 relative">
-            <span class="text-xs font-black tracking-widest text-brand-gold uppercase bg-brand-gold/10 border border-brand-gold/20 px-3.5 py-1.5 rounded-full inline-block mb-4">فن معالجة الصور الرقمية</span>
-            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight">
-                نعيد صياغة صورك <br class="hidden sm:inline">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-400 to-zinc-500">بأسلوب سينمائي مبهر</span>
-            </h1>
-            <p class="mt-6 text-sm sm:text-lg text-brand-grayText max-w-2xl mx-auto font-light leading-relaxed">
-                ستديو زوم يوفر حلول تعديل، تلوين، تصفية بورتريه، وترميم الصور القديمة بدقة لامتناهية بالاعتماد على أدوات تعديل ومؤثرات حصرية وخبرة تمتد لسنوات.
-            </p>
+        <section id="details-page" class="page">
+            <button class="back-btn" onclick="navigateTo('home-page')">
+                <i class="fa-solid fa-arrow-right"></i> العودة للعروض
+            </button>
             
-            <!-- Mobile Search Bar -->
-            <div class="mt-8 max-w-md mx-auto block md:hidden">
-                <div class="flex items-center gap-3 bg-brand-card border border-brand-border rounded-xl px-4 py-3 shadow-lg">
-                    <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input type="text" x-model="searchQuery" placeholder="ابحث عن باقات تعديل البورتريه أو الدمج..." class="bg-transparent border-none text-xs text-white focus:outline-none w-full placeholder:text-zinc-500" />
+            <div id="offer-details-target">
                 </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- --- OFFERS WORKSPACE --- -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
-        <!-- Section Header -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-            <div>
-                <span class="text-[11px] font-black text-brand-gold tracking-widest block mb-1 uppercase">الأكثر طلباً واحترافية</span>
-                <h2 class="text-2xl font-black text-white">أحدث عروض تعديل الصور الفنية</h2>
-            </div>
+        <section id="admin-page" class="page">
+            <button class="back-btn" onclick="navigateTo('home-page')">
+                <i class="fa-solid fa-arrow-right"></i> الخروج من لوحة التحكم
+            </button>
+            <h2 style="margin-bottom: 20px; font-size: 22px;">لوحة إدارة الاستديو</h2>
             
-            <!-- Category Chips Filter -->
-            <div class="flex flex-wrap gap-2 text-xs">
-                <template x-for="cat in ['الكل', 'تعديل بورتريه', 'ترميم قديم', 'تلوين سينمائي', 'دمج تجاري']">
-                    <button 
-                        @click="selectedCategory = cat"
-                        :class="selectedCategory === cat ? 'bg-white text-black font-black border-white' : 'bg-transparent text-brand-grayText border-neutral-800 hover:text-white hover:border-zinc-500'"
-                        class="px-4 py-2 rounded-full border transition-all duration-300 font-semibold"
-                        x-text="cat">
-                    </button>
-                </template>
-            </div>
-        </div>
-
-        <!-- Empty State Illustration -->
-        <template x-if="filteredDeals().length === 0">
-            <div class="text-center py-20 border border-dashed border-brand-border rounded-3xl bg-brand-card/50">
-                <svg class="w-12 h-12 text-zinc-600 mx-auto mb-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"/></svg>
-                <h3 class="text-lg font-bold text-white">لا توجد عروض متطابقة حالياً</h3>
-                <p class="text-xs text-brand-grayText mt-1">تأكد من تعديل عبارة البحث أو اختر تصنيفاً آخر لمراجعة العروض.</p>
-            </div>
-        </template>
-
-        <!-- Dynamic Grid of Modern Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            <template x-for="(deal, index) in filteredDeals()" :key="deal.id">
-                <div class="bg-brand-card border border-brand-border rounded-2xl overflow-hidden group hover:border-zinc-500 transition-all duration-500 flex flex-col justify-between">
-                    
-                    <!-- Offer Images Panel (With multi-image indicators) -->
-                    <div class="relative aspect-[4/3] bg-zinc-950 overflow-hidden select-none">
-                        
-                        <!-- Main active slide image -->
-                        <img :src="deal.activeImage || deal.images[0]" :alt="deal.title" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" onerror="this.src='https://placehold.co/800x600/101012/ffffff?text=Studio+Zoom'">
-                        
-                        <!-- Before / After or Image slider Navigation dot controls if multiple -->
-                        <template x-if="deal.images.length > 1">
-                            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full flex gap-1.5 z-10">
-                                <template x-for="(img, imgIdx) in deal.images">
-                                    <button 
-                                        @click="deal.activeImage = img"
-                                        :class="(deal.activeImage || deal.images[0]) === img ? 'bg-brand-gold w-3' : 'bg-white/40 hover:bg-white w-1.5'"
-                                        class="h-1.5 rounded-full transition-all duration-300">
-                                    </button>
-                                </template>
-                            </div>
-                        </template>
-
-                        <!-- Floating Category Label -->
-                        <span class="absolute top-4 right-4 text-[10px] font-black bg-black/70 backdrop-blur-md border border-white/10 text-white tracking-widest px-3 py-1.5 rounded-full uppercase" x-text="deal.category"></span>
-
-                        <!-- Dynamic Visual Badges (e.g. Hidden/Hidden Status for logged in Admin) -->
-                        <template x-if="!deal.visible">
-                            <span class="absolute top-4 left-4 text-[10px] font-bold bg-rose-500/90 text-white px-2.5 py-1 rounded-md">مخفي عن الزوار ❌</span>
-                        </template>
-                    </div>
-
-                    <!-- Deal Card Details Content -->
-                    <div class="p-6 flex-1 flex flex-col justify-between">
-                        <div>
-                            <div class="flex justify-between items-baseline gap-2 mb-2">
-                                <h3 class="text-lg font-black text-white group-hover:text-brand-gold transition-colors" x-text="deal.title"></h3>
-                                <template x-if="deal.price">
-                                    <span class="text-sm font-black text-brand-gold whitespace-nowrap" x-text="deal.price + ' $'"></span>
-                                </template>
-                            </div>
-                            
-                            <p class="text-xs text-brand-grayText line-clamp-3 leading-relaxed mb-4 font-light" x-text="deal.description"></p>
-                        </div>
-
-                        <!-- Action Controls for Client or Admin User inside card -->
-                        <div class="pt-4 border-t border-brand-border/60 flex items-center justify-between gap-4">
-                            <span class="text-[10px] text-zinc-500 font-semibold" x-text="'تمت الإضافة: ' + deal.date"></span>
-                            
-                            <!-- If Client: Show WhatsApp Booking trigger -->
-                            <a :href="'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent('مرحباً ستديو زوم، أرغب بالاستفسار والحصول على عرض: ' + deal.title)" target="_blank" class="flex items-center gap-2 bg-white text-black hover:bg-brand-gold font-black text-xs px-4 py-2.5 rounded-xl transition-all duration-300 shadow">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.05 11.945.05a11.829 11.829 0 0 1 8.441 4.966 11.805 11.805 0 0 1 3.551 8.438c-.005 6.597-5.34 11.895-11.884 11.895-2.008-.002-3.978-.51-5.742-1.478L0 24zm6.59-4.846c1.785.59 3.64.9 5.346.901 5.485 0 9.948-4.444 9.953-9.914a9.882 9.882 0 0 0-2.969-7.018 9.917 9.917 0 0 0-7.01-2.95C6.442 3.176 1.979 7.62 1.974 13.09c-.001 1.849.467 3.659 1.356 5.253l-.993 3.627 3.738-.971.572.338zM17.91 14.53c-.337-.17-1.996-.982-2.305-1.095-.31-.113-.535-.17-.76.17-.225.337-.872 1.095-1.07 1.32-.196.225-.393.253-.73.084a9.23 9.23 0 0 1-2.711-1.671 10.185 10.185 0 0 1-1.875-2.33c-.337-.577-.036-.89.26-.1.173.238.1.336.173.31.253.224.31.253.45.505.14.253.07.478-.034.646-.104.17-.76 1.827-.104 2.11-.336.277-.665.419-.921.419-1.296 0-3.376-1.542-4.148-2.246-.15-.137-1.127-1.5-1.127-2.862a2.91 2.91 0 0 1 .9-.2.1.282.1.418-.282.914 1.154 1.296c-.336.112-1.996.982-1.996 2.4a4.912 4.912 0 0 0 1.026 2.614c.125.17 2.008 3.064 4.862 4.297.68.293 1.21.468 1.624.6.683.217 1.303.186 1.794.113.547-.082 1.996-.816 2.278-1.603.28-.787.28-1.463.196-1.603-.083-.14-.31-.225-.647-.394z"/></svg>
-                                <span>احجز الآن</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </div>
-    </main>
-
-    <!-- --- ADMIN LOGIN OVERLAY GATE --- -->
-    <div x-show="showAdminLogin" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4" x-transition>
-        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-sm w-full p-6 relative shadow-2xl">
-            <button @click="showAdminLogin = false" class="absolute top-4 left-4 text-brand-grayText hover:text-white font-black text-xl">×</button>
-            
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-3 border border-brand-border">
-                    <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                </div>
-                <h3 class="font-black text-lg text-white">تسجيل الدخول للإدارة</h3>
-                <p class="text-xs text-brand-grayText mt-1">الرجاء إدخال الرمز السري للتحكم بعروض ستديو زوم</p>
-            </div>
-
-            <form @submit.preventDefault="loginAdmin()">
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-brand-grayText mb-1.5">اسم المستخدم:</label>
-                        <input type="text" x-model="adminUser" class="w-full bg-[#0a0a0b] border border-brand-border rounded-xl p-3 text-sm text-white focus:border-brand-gold focus:outline-none placeholder:text-zinc-700" placeholder="admin" required />
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-brand-grayText mb-1.5">الرمز السري الخاص بك:</label>
-                        <input type="password" x-model="adminPassword" class="w-full bg-[#0a0a0b] border border-brand-border rounded-xl p-3 text-sm text-white focus:border-brand-gold focus:outline-none" required />
-                    </div>
-                    <button type="submit" class="w-full bg-white hover:bg-brand-gold text-black font-black text-xs py-3 rounded-xl transition-all shadow-md mt-2">دخول لوحة التحكم</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- --- REVOLUTIONARY ADMIN CONTROL DASHBOARD --- -->
-    <div x-show="isAdminLoggedIn" class="fixed inset-0 bg-black/95 z-50 overflow-y-auto" x-transition>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            
-            <!-- Dashboard Controls Header -->
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-brand-border pb-6 mb-8">
-                <div>
-                    <span class="text-xs font-black text-brand-gold uppercase tracking-widest block">بوابة المسؤولين والمشرفين</span>
-                    <h1 class="text-2xl sm:text-3xl font-black text-white flex items-center gap-2 mt-1">
-                        لوحة إدارة محتوى ستديو زوم ⚡️
-                    </h1>
-                </div>
-                <div class="flex flex-wrap items-center gap-3">
-                    <button @click="showPassChanger = !showPassChanger" class="bg-[#0e0e11] border border-brand-border text-brand-grayText hover:text-white px-4 py-2 rounded-xl text-xs font-bold transition-all">تغيير كلمة المرور 🔐</button>
-                    <button @click="forcePushToCloud()" :disabled="syncing" class="bg-[#0e0e11] border border-brand-border text-brand-gold hover:bg-zinc-900 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
-                        <svg class="w-3.5 h-3.5 animate-spin" x-show="syncing" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                        <span>مزامنة وحفظ سحابي ☁️</span>
-                    </button>
-                    <button @click="logout()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl text-xs font-black transition-all">خروج</button>
-                </div>
-            </div>
-
-            <!-- Password Changer Form -->
-            <div x-show="showPassChanger" class="bg-brand-card border border-brand-border p-5 rounded-2xl mb-8 max-w-md animate-fadeIn">
-                <h4 class="font-bold text-sm text-white mb-4">🔐 تغيير كلمة المرور المشتركة</h4>
-                <div class="space-y-3">
-                    <input type="password" x-model="newPassword" placeholder="اكتب الرمز السري الجديد هنا..." class="w-full bg-[#0a0a0b] border border-brand-border rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-brand-gold" />
-                    <button @click="changeAdminPassword()" class="bg-white text-black font-black text-xs px-4 py-2 rounded-lg hover:bg-brand-gold transition-colors">تحديث الرمز السري المعتمد</button>
-                </div>
-            </div>
-
-            <!-- Grid Layout: Add Form & Manage List -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div style="background: var(--surface-color); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 30px;">
+                <h3 id="form-title" style="margin-bottom: 15px; font-size: 16px;">إضافة عرض جديد</h3>
+                <input type="hidden" id="edit-index" value="">
                 
-                <!-- COLUMN 1: Offer Creator / Editor -->
-                <div class="lg:col-span-5 bg-brand-card border border-brand-border p-6 rounded-3xl flex flex-col gap-5 sticky top-24 h-fit">
-                    <div>
-                        <h3 class="font-black text-lg text-white" x-text="editMode ? 'تعديل وتعديل العرض الحالي ✏️' : 'إضافة عرض فني جديد 📸'"></h3>
-                        <p class="text-xs text-brand-grayText mt-1">تعبئة مواصفات وتصنيفات الخدمة، ودعم ضغط الصور التلقائي المتكامل.</p>
-                    </div>
-
-                    <form @submit.preventDefault="saveDeal()">
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-bold text-brand-grayText mb-1.5">عنوان العرض:</label>
-                                <input type="text" x-model="formOffer.title" placeholder="مثال: تعديل وتصفية بورتريه احترافي" class="w-full bg-[#070708] border border-brand-border rounded-xl p-3 text-xs text-white focus:border-brand-gold focus:outline-none" required />
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-xs font-bold text-brand-grayText mb-1.5">التصنيف:</label>
-                                    <select x-model="formOffer.category" class="w-full bg-[#070708] border border-brand-border rounded-xl p-3 text-xs text-white focus:border-brand-gold focus:outline-none">
-                                        <option value="تعديل بورتريه">تعديل بورتريه</option>
-                                        <option value="ترميم قديم">ترميم قديم</option>
-                                        <option value="تلوين سينمائي">تلوين سينمائي</option>
-                                        <option value="دمج تجاري">دمج تجاري</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-brand-grayText mb-1.5">السعر بالأمريكي (اختياري $):</label>
-                                    <input type="number" x-model="formOffer.price" placeholder="مثال: 15" class="w-full bg-[#070708] border border-brand-border rounded-xl p-3 text-xs text-white focus:border-brand-gold focus:outline-none" />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-bold text-brand-grayText mb-1.5">وصف العرض والميزات التفصيلية:</label>
-                                <textarea x-model="formOffer.description" rows="3" placeholder="تعديل وتصفية سينمائية للبشرة، زيادة التباين اللوني، تعديل خلفيات، طباعة بأعلى جودة..." class="w-full bg-[#070708] border border-brand-border rounded-xl p-3 text-xs text-white focus:border-brand-gold focus:outline-none resize-none" required></textarea>
-                            </div>
-
-                            <!-- Image Upload Drag/Drop Box -->
-                            <div>
-                                <label class="block text-xs font-bold text-brand-grayText mb-1.5">رفع صور العرض (سحب وإفلات أو تحديد متعدد):</label>
-                                <div 
-                                    @dragover.prevent="dragOver = true"
-                                    @dragleave.prevent="dragOver = false"
-                                    @drop.prevent="handleFileDrop($event)"
-                                    :class="dragOver ? 'border-brand-gold bg-brand-gold/5' : 'border-brand-border bg-[#070708] hover:border-zinc-500'"
-                                    class="border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all duration-300 relative">
-                                    
-                                    <input type="file" multiple accept="image/*" @change="handleFileSelect($event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
-                                    
-                                    <svg class="w-8 h-8 text-brand-grayText mx-auto mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v12m0-12c-1.11 0-2.08-.402-2.599-1M12 9V7m0 2c1.11 0 2.08-.402 2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                    <span className="text-xs text-slate-300 block font-semibold">اسحب وأفلت صور التعديل هنا أو اضغط للتصفح</span>
-                                    <span className="text-[10px] text-slate-500 block mt-1">يُسمح برفع أكثر من صورة للمقارنة التفاعلية</span>
-                                </div>
-
-                                <!-- Compression processing indicator -->
-                                <div x-show="compressing" class="mt-2 text-[11px] text-brand-gold flex items-center gap-1.5">
-                                    <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                    <span>جاري ضغط ومعالجة الصور لتحسين سرعة التصفح...</span>
-                                </div>
-
-                                <!-- Preview uploads grid -->
-                                <template x-if="formOffer.images.length > 0">
-                                    <div class="grid grid-cols-4 gap-2.5 mt-3">
-                                        <template x-for="(img, idx) in formOffer.images">
-                                            <div class="relative aspect-square border border-brand-border rounded-lg overflow-hidden group">
-                                                <img :src="img" class="w-full h-full object-cover" />
-                                                <button type="button" @click="removeFormImage(idx)" class="absolute inset-0 bg-red-600/90 text-white font-black text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">حذف</button>
-                                            </div>
-                                        </template>
-                                    </div>
-                                </template>
-                            </div>
-
-                            <!-- Visibility option -->
-                            <div class="flex items-center gap-2">
-                                <input type="checkbox" x-model="formOffer.visible" id="visibility-checkbox" class="w-4 h-4 accent-brand-gold bg-zinc-900 border-zinc-700" />
-                                <label for="visibility-checkbox" class="text-xs font-semibold text-slate-300 cursor-pointer">إظهار العرض مباشرة للزوار والعملاء</label>
-                            </div>
-
-                            <div class="flex gap-2.5 pt-2">
-                                <button type="submit" class="flex-1 bg-white hover:bg-brand-gold text-black font-black text-xs py-3 rounded-xl transition-all shadow-md" x-text="editMode ? 'حفظ وتعديل العرض ✅' : 'إضافة وتثبيت العرض 🚀'"></button>
-                                <button type="button" x-show="editMode" @click="resetForm()" class="bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs px-4 rounded-xl transition-all">إلغاء</button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="input-group">
+                    <label>اسم العرض</label>
+                    <input type="text" id="form-title-input" class="form-control" placeholder="مثال: عرض زفاف ملوكي">
                 </div>
-
-                <!-- COLUMN 2: Deals Reorder, Visibility & Delete Panel -->
-                <div class="lg:col-span-7 bg-brand-card border border-brand-border p-6 rounded-3xl">
-                    <div class="mb-6 flex justify-between items-center border-b border-brand-border/60 pb-3">
-                        <div>
-                            <h3 class="font-black text-lg text-white">العروض الحالية بقاعدة البيانات</h3>
-                            <p class="text-xs text-brand-grayText mt-1">التحكم في ترتيب العروض، الحذف، التعديل أو إخفاء أي عرض بلمسة واحدة.</p>
-                        </div>
-                        <span class="text-xs font-bold bg-[#0c0c0e] px-3 py-1 rounded-full text-brand-gold" x-text="'إجمالي العروض: ' + deals.length"></span>
-                    </div>
-
-                    <div class="space-y-3">
-                        <template x-for="(deal, index) in deals" :key="deal.id">
-                            <div class="bg-zinc-950/80 p-3.5 rounded-2xl border border-brand-border flex items-center justify-between gap-4 hover:border-zinc-800 transition-all">
-                                
-                                <div class="flex items-center gap-3 min-w-0">
-                                    <!-- Thumbnail -->
-                                    <div class="w-14 h-14 bg-zinc-900 border border-brand-border rounded-xl overflow-hidden flex-shrink-0">
-                                        <img :src="deal.images[0]" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100/101012/ffffff?text=Zoom'">
-                                    </div>
-                                    <div class="min-w-0">
-                                        <h4 class="text-sm font-black text-white truncate" x-text="deal.title"></h4>
-                                        <div class="flex items-center gap-2 mt-1 flex-wrap">
-                                            <span class="text-[10px] text-brand-gold font-bold bg-brand-gold/10 px-2 py-0.5 rounded-full" x-text="deal.category"></span>
-                                            <span class="text-[10px] text-zinc-500 font-bold" x-text="deal.price ? deal.price + ' $' : 'مجاني'"></span>
-                                            <template x-if="!deal.visible">
-                                                <span class="text-[9px] bg-rose-500/20 text-rose-400 border border-rose-500/30 px-1.5 py-0.5 rounded">مخفي 👁️</span>
-                                            </template>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Action Buttons & Sorting arrows -->
-                                <div class="flex items-center gap-1.5 flex-shrink-0">
-                                    <!-- Sort Order Buttons -->
-                                    <div class="flex flex-col gap-1">
-                                        <button @click="moveDeal(index, -1)" :disabled="index === 0" class="p-1 text-zinc-500 hover:text-white disabled:opacity-20">▲</button>
-                                        <button @click="moveDeal(index, 1)" :disabled="index === deals.length - 1" class="p-1 text-zinc-500 hover:text-white disabled:opacity-20">▼</button>
-                                    </div>
-                                    
-                                    <!-- Toggle Visibility -->
-                                    <button @click="toggleVisibility(deal.id)" class="p-2 bg-zinc-900 hover:bg-zinc-800 border border-brand-border rounded-lg text-xs" :title="deal.visible ? 'إخفاء العرض' : 'إظهار العرض'">
-                                        <span x-text="deal.visible ? '👁️' : '🕶️'"></span>
-                                    </button>
-
-                                    <!-- Edit -->
-                                    <button @click="editDeal(deal)" class="p-2 bg-zinc-900 hover:bg-zinc-800 border border-brand-border rounded-lg text-xs">✏️</button>
-                                    
-                                    <!-- Delete -->
-                                    <button @click="deleteDeal(deal.id)" class="p-2 bg-rose-950/20 hover:bg-rose-900/40 text-rose-400 border border-rose-900/30 rounded-lg text-xs">🗑️</button>
-                                </div>
-
-                            </div>
-                        </template>
-
-                        <template x-if="deals.length === 0">
-                            <div class="py-12 text-center text-xs text-brand-grayText">لا توجد عروض مضافة للتحرير بقاعدة البيانات الحالية.</div>
-                        </template>
-                    </div>
+                <div class="input-group">
+                    <label>الوصف المختصر والشامل</label>
+                    <textarea id="form-desc-input" class="form-control" rows="4" placeholder="اكتب تفاصيل الخدمة والمميزات..."></textarea>
                 </div>
-
+                <div class="input-group">
+                    <label>السعر</label>
+                    <input type="text" id="form-price-input" class="form-control" placeholder="مثال: 350,000 د.ع">
+                </div>
+                <div class="input-group">
+                    <label>مدة العرض</label>
+                    <input type="text" id="form-duration-input" class="form-control" placeholder="مثال: يوم واحد (6 ساعات)">
+                </div>
+                <div class="input-group">
+                    <label>تاريخ انتهاء العرض</label>
+                    <input type="date" id="form-date-input" class="form-control">
+                </div>
+                <div class="input-group">
+                    <label>صور العرض (يمكنك اختيار صورة أو أكثر)</label>
+                    <input type="file" id="form-images-input" class="form-control" multiple accept="image/*">
+                    <small style="color: var(--text-muted); font-size: 11px;">سيتم حفظ الصور محلياً في المتصفح.</small>
+                </div>
+                <div class="input-group" style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
+                    <input type="checkbox" id="form-visible-input" checked style="width: 18px; height: 18px;">
+                    <label for="form-visible-input" style="margin: 0;">إظهار العرض في الصفحة الرئيسية</label>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveOffer()" style="margin-top: 15px;">
+                    <i class="fa-solid fa-floppy-disk"></i> <span id="save-btn-text">حفظ العرض</span>
+                </button>
+                <button class="btn btn-outline" id="cancel-edit-btn" onclick="resetForm()" style="margin-top: 10px; display: none;">إلغاء التعديل</button>
             </div>
 
+            <h3 style="margin-bottom: 15px; font-size: 16px;">إدارة العروض المضافة</h3>
+            <div id="admin-offers-list"></div>
+        </section>
+
+        <footer>
+            <button class="admin-login-trigger" onclick="openAuthModal()">تعديل محتوى الموقع</button>
+        </footer>
+    </div>
+
+    <div class="fixed-bottom-actions">
+        <a href="https://wa.me/964XXXXXXXXXX" id="global-whatsapp" class="btn whatsapp-btn" target="_blank">
+            <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> تواصل معنا عبر واتساب
+        </a>
+    </div>
+
+    <div class="modal" id="auth-modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 15px;">صلاحية التعديل</h3>
+            <div class="input-group">
+                <label>أدخل رمز التعديل السري</label>
+                <input type="password" id="admin-password" class="form-control" style="text-align: center; letter-spacing: 5px;">
+            </div>
+            <button class="btn btn-primary" onclick="checkAdminPassword()">دخول</button>
+            <button class="btn btn-outline" onclick="closeAuthModal()" style="margin-top: 10px; border: none;">إلغاء</button>
         </div>
     </div>
 
-    <!-- --- SYSTEM BRAND FOOTER (No-Print) --- -->
-    <footer class="bg-slate-900/90 border-t border-slate-800 py-8 mt-12 text-xs text-brand-grayText text-center no-print">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="text-right">
-                <span class="text-white font-black text-sm tracking-wider block mb-1">ستديو زوم لخدمات التصوير وتعديل الصور © 2026</span>
-                <p class="text-zinc-500 text-xs font-light">نظام ذكي متكامل ومزامنة سحابية لحفظ وإشهار العروض على الهواتف والأجهزة فوراً.</p>
-            </div>
-            
-            <div class="flex items-center gap-4">
-                <a href="#" @click.prevent="openAdminModal()" class="hover:text-white transition-colors">إدارة الموقع</a>
-                <span>|</span>
-                <a href="#offers" class="hover:text-white transition-colors">تصفح العروض</a>
-                <span>|</span>
-                <a :href="'https://wa.me/' + whatsappNumber" target="_blank" class="hover:text-white transition-colors">اتصال سريع</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- STICKY FLOATING WHATSAPP BUTTON -->
-    <a :href="'https://wa.me/' + whatsappNumber" target="_blank" class="fixed bottom-6 right-6 z-40 bg-emerald-600 hover:bg-emerald-500 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95 group no-print">
-        <!-- Pulse effect -->
-        <span class="absolute inset-0 rounded-full bg-emerald-600/30 animate-ping"></span>
-        <svg class="w-6 h-6 relative z-10" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-9-5.5m9 11.5v-3.75m0 0H6.75m11.25-3c.414 0 .75.336.75.75v3c0 .414-.336.75-.75.75H12c-.414 0-.75-.336-.75-.75v-3c0-.414.336-.75.75-.75h6zm-6.75-3c.414 0 .75.336.75.75v3c0 .414-.336.75-.75.75H6c-.414 0-.75-.336-.75-.75v-3c0-.414.336-.75.75-.75h6z"/>
-        </svg>
-    </a>
-
-    <!-- --- CORE APPLICATION SCRIPTS --- -->
     <script>
-        function zoomApp() {
-            return {
-                // Config
-                syncKey: 'studio_zoom_official_deals_db_2026', // Shared database identifier
-                whatsappNumber: '9647701234567', // Edit your Studio Whatsapp number here!
+        // بيانات تجريبية أولية في حال كانت قاعدة البيانات المحلية فارغة
+        const defaultOffers = [
+            {
+                title: "عرض الأعراس المتكامل",
+                desc: "تصوير فوتوغرافي متكامل لجلسة العروسين مع ألبوم ديجيتال فاخر، وتصوير فيديو سينمائي بدقة 4K شامل المونتاج مع لقطات درون جوية.",
+                price: "450$",
+                duration: "يوم الزفاف بالكامل",
+                expiry: "2026-09-01",
+                visible: true,
+                images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=500"]
+            },
+            {
+                title: "جلسة تصوير خارجية (Outdoor)",
+                desc: "جلسة تصوير احترافية في الهواء الطلق، اختيار موقع مميز، تسليم 25 صورة معدلة بالكامل بأعلى دقة ومعالجة ألوان سينمائية.",
+                price: "150$",
+                duration: "3 ساعات",
+                expiry: "2026-08-15",
+                visible: true,
+                images: ["https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=500"]
+            }
+        ];
 
-                // Search & Filter
-                searchQuery: '',
-                selectedCategory: 'الكل',
-
-                // Admin states
-                showAdminLogin: false,
-                isAdminLoggedIn: false,
-                adminUser: '',
-                adminPassword: '',
-                showPassChanger: false,
-                newPassword: '',
-
-                // Lists & database
-                deals: [],
-                syncing: false,
-                compressing: false,
-                dragOver: false,
-
-                // Forms
-                editMode: false,
-                editId: null,
-                formOffer: {
-                    title: '',
-                    category: 'تعديل بورتريه',
-                    price: '',
-                    description: '',
-                    images: [],
-                    visible: true
-                },
-
-                // Initialization
-                initApp() {
-                    // Try to load cached database from local first
-                    const cached = localStorage.getItem('zoom_deals_cached');
-                    if (cached) {
-                        this.deals = JSON.parse(cached);
-                    } else {
-                        // Fallback placeholder deals
-                        this.deals = [
-                            {
-                                id: 'D-1',
-                                title: 'باقة رتوش البورتريه الاحترافية (Retouch PRO)',
-                                category: 'تعديل بورتريه',
-                                price: '10',
-                                description: 'باقة خاصة بتعديل وتصفية البشرة بطريقة السينما الطبيعية دون تدمير ملامح الجلد (تصفية المسام، إزالة الشوائب، تبييض الأسنان، تعديل تباين العيون والرموش، زيادة دقة وتفاصيل الوجه). تسليم فوري للملفات بصيغة PNG عالية الدقة.',
-                                images: ['https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800'],
-                                visible: true,
-                                date: new Date().toLocaleDateString('ar-EG')
-                            },
-                            {
-                                id: 'D-2',
-                                title: 'تلوين الصور الباهتة والسينمائية (Cinematic Grading)',
-                                category: 'تلوين سينمائي',
-                                price: '15',
-                                description: 'تحويل درجات الألوان لتبدو كأنها لقطة من فيلم سينمائي عالمي باستخدام منحنيات الإضاءة المتقدمة (Color Grading) وتعديل الإضاءة والظلال بشكل مذهل. مناسبة جداً للصور الخارجية وجلسات التصوير الطبيعية والمناسبات الشخصية.',
-                                images: ['https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800'],
-                                visible: true,
-                                date: new Date().toLocaleDateString('ar-EG')
-                            },
-                            {
-                                id: 'D-3',
-                                title: 'إعادة الحياة للصور التاريخية وترميم الخدوش (Restoration)',
-                                category: 'ترميم قديم',
-                                price: '25',
-                                description: 'إصلاح وترميم الصور القديمة، وإزالة الخدوش، والتمزقات، وتعديل المناطق المفقودة، وتلوين الصورة الأبيض والأسود لتنبض بالحياة مجدداً بدقة فائقة وجودة استثنائية تناسب الأرشفة والطباعة الجدارية الكبيرة.',
-                                images: ['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'],
-                                visible: true,
-                                date: new Date().toLocaleDateString('ar-EG')
-                            }
-                        ];
-                        localStorage.setItem('zoom_deals_cached', JSON.stringify(this.deals));
-                    }
-
-                    // Pull fresh data from cloud database
-                    this.pullFromCloud();
-
-                    // Check if Admin Login session persistent
-                    if (sessionStorage.getItem('zoom_admin_session') === 'true') {
-                        this.isAdminLoggedIn = true;
-                    }
-                }
-            };
+        // تحميل البيانات من LocalStorage أو تعيين الافتراضية
+        let offers = JSON.parse(localStorage.getItem('studio_zoom_offers')) || defaultOffers;
+        if(!localStorage.getItem('studio_zoom_offers')) {
+            localStorage.setItem('studio_zoom_offers', JSON.stringify(offers));
         }
 
-        // Add dynamically referenced functions to prevent global scope contamination
-        window.zoomApp = zoomApp;
+        // المصفوفة المؤقتة لحفظ الصور المرفوعة كـ Base64 لغرض المحاكاة
+        let uploadedImagesBase64 = [];
 
-        // Fetch data from server database via cloud sync key API
-        zoomApp.prototype.pullFromCloud = async function() {
-            this.syncing = true;
-            try {
-                const response = await fetch(`https://kvdb.io/K7n8m9pLqRstUvwXyZ1234/zoom_studio_${this.syncKey}`);
-                if (response.ok) {
-                    const cloudData = await response.json();
-                    if (cloudData && Array.isArray(cloudData.deals)) {
-                        this.deals = cloudData.deals;
-                        localStorage.setItem('zoom_deals_cached', JSON.stringify(this.deals));
-                    }
-                }
-            } catch (err) {
-                console.log("No cloud data fallback/Offline database active.");
-            } finally {
-                this.syncing = false;
+        // التنقل بين الصفحات بسلاسة
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0,0);
+
+            // إخفاء أو إظهار زر الواتساب العام حسب الصفحة
+            if(pageId === 'details-page') {
+                document.getElementById('global-whatsapp').style.display = 'none';
+            } else {
+                document.getElementById('global-whatsapp').style.display = 'flex';
             }
-        };
+        }
 
-        // Push data to server database via cloud sync key API
-        zoomApp.prototype.pushToCloud = async function() {
-            this.syncing = true;
-            try {
-                await fetch(`https://kvdb.io/K7n8m9pLqRstUvwXyZ1234/zoom_studio_${this.syncKey}`, {
-                    method: 'POST',
-                    body: JSON.stringify({ deals: this.deals }),
-                    headers: { 'Content-Type': 'application/json' }
+        // عرض العروض في الصفحة الرئيسية
+        function renderHomeOffers() {
+            const container = document.getElementById('offers-container');
+            container.innerHTML = '';
+
+            offers.forEach((offer, index) => {
+                if(!offer.visible) return; // تخطي العروض المخفية
+
+                const imageSrc = offer.images && offer.images.length > 0 ? offer.images[0] : 'https://via.placeholder.com/400x250?text=No+Image';
+
+                container.innerHTML += `
+                    <div class="offer-card">
+                        <img src="${imageSrc}" alt="${offer.title}" loading="lazy">
+                        <div class="offer-details-content">
+                            <h3 class="offer-title">${offer.title}</h3>
+                            <p class="offer-desc">${offer.desc}</p>
+                            <div class="offer-meta">
+                                <span class="price">${offer.price}</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="showOfferDetails(${index})">عرض التفاصيل</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // عرض صفحة تفاصيل العرض بشكل منفصل
+        function showOfferDetails(index) {
+            const offer = offers[index];
+            const target = document.getElementById('offer-details-target');
+            
+            // إنشاء الـ Slider للصور
+            let sliderHtml = '<div class="gallery-slider">';
+            if(offer.images && offer.images.length > 0) {
+                offer.images.forEach(img => {
+                    sliderHtml += `<img src="${img}" alt="">`;
                 });
-                localStorage.setItem('zoom_deals_cached', JSON.stringify(this.deals));
-            } catch (err) {
-                console.log("Cloud sync error: Data stored locally.");
-            } finally {
-                this.syncing = false;
+            } else {
+                sliderHtml += `<img src="https://via.placeholder.com/400x300?text=No+Image" alt="">`;
             }
-        };
+            sliderHtml += '</div>';
 
-        // Filter and Search Engine query parsing
-        zoomApp.prototype.filteredDeals = function() {
-            return this.deals.filter(deal => {
-                const matchesSearch = deal.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-                                      deal.description.toLowerCase().includes(this.searchQuery.toLowerCase());
-                const matchesCategory = this.selectedCategory === 'الكل' || deal.category === this.selectedCategory;
+            // رسالة الواتساب المخصصة للاستديو عند الحجز
+            const whatsappMessage = encodeURIComponent(`مرحباً ستديو زوم، أرغب في حجز أو الاستفسار عن عرض: ${offer.title}`);
+            const whatsappUrl = `https://wa.me/964XXXXXXXXXX?text=${whatsappMessage}`; // استبدل XXXXXXXXXX برقمك الفعلي
+
+            target.innerHTML = `
+                ${sliderHtml}
+                <h2 style="font-size: 24px; margin-bottom: 10px;">${offer.title}</h2>
+                <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 20px;">${offer.desc}</p>
                 
-                // Guests only see visible deals; Admin sees everything
-                const matchesVisibility = this.isAdminLoggedIn || deal.visible;
+                <div class="detail-row">
+                    <span>السعر الإجمالي</span>
+                    <span style="font-weight:bold; font-size:16px;">${offer.price}</span>
+                </div>
+                <div class="detail-row">
+                    <span>مدة صلاحية الخدمة</span>
+                    <span>${offer.duration || 'غير محددة'}</span>
+                </div>
+                <div class="detail-row">
+                    <span>تاريخ انتهاء العرض</span>
+                    <span style="color: #ff4444;">${offer.expiry || 'ينتهي قريباً'}</span>
+                </div>
 
-                return matchesSearch && matchesCategory && matchesVisibility;
-            });
-        };
+                <div style="margin-top: 25px; display:flex; flex-direction:column; gap:10px;">
+                    <a href="${whatsappUrl}" target="_blank" class="btn whatsapp-btn">
+                        <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> احجز الآن عبر واتساب
+                    </a>
+                </div>
+            `;
 
-        // Login Handler
-        zoomApp.prototype.loginAdmin = function() {
-            // Default built-in credentials or loaded from localStorage settings
-            const savedPassword = localStorage.getItem('zoom_admin_pwd') || 'zoom123';
-            
-            if (this.adminUser.toLowerCase() === 'admin' && this.adminPassword === savedPassword) {
-                this.isAdminLoggedIn = true;
-                sessionStorage.setItem('zoom_admin_session', 'true');
-                this.showAdminLogin = false;
-                this.adminPassword = '';
-                alert("أهلاً بك يا مدير ستديو زوم! يمكنك الآن التحكم بالكامل بالعروض وإدارتها.");
+            navigateTo('details-page');
+        }
+
+        /* --- نظام التحقق وإدارة لوحة التحكم --- */
+        function openAuthModal() {
+            document.getElementById('auth-modal').style.display = 'flex';
+            document.getElementById('admin-password').focus();
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').style.display = 'none';
+            document.getElementById('admin-password').value = '';
+        }
+
+        function checkAdminPassword() {
+            const password = document.getElementById('admin-password').value;
+            if(password === '1997') {
+                closeAuthModal();
+                renderAdminOffersList();
+                navigateTo('admin-page');
             } else {
-                alert("❌ خطأ: الرمز السري أو اسم المستخدم غير صحيح!");
+                alert('رمز التعديل غير صحيح.');
             }
-        };
+        }
 
-        zoomApp.prototype.logout = function() {
-            this.isAdminLoggedIn = false;
-            sessionStorage.removeItem('zoom_admin_session');
-        };
-
-        zoomApp.prototype.changeAdminPassword = function() {
-            if (!this.newPassword.trim()) {
-                alert("يرجى كتابة رمز سري صالح أولاً.");
-                return;
-            }
-            localStorage.setItem('zoom_admin_pwd', this.newPassword.trim());
-            alert("✅ تم بنجاح تحديث كلمة مرور لوحة تحكم ستديو زوم!");
-            this.newPassword = '';
-            this.showPassChanger = false;
-        };
-
-        zoomApp.prototype.openAdminModal = function() {
-            if (this.isAdminLoggedIn) {
-                // If logged in, skip gate
-                return;
-            }
-            this.showAdminLogin = true;
-        };
-
-        // Image Processing with Advanced Compression Engine to retain maximum loading speeds
-        zoomApp.prototype.processImage = function(file) {
-            return new Promise((resolve, reject) => {
+        // إدارة رفع الصور وتحويلها لروابط Base64 لتخزينها محلياً
+        document.getElementById('form-images-input').addEventListener('change', function(e) {
+            uploadedImagesBase64 = [];
+            const files = e.target.files;
+            
+            for(let i=0; i<files.length; i++) {
                 const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-
-                        // Maximum boundary of image dimensions to reduce load file sizes
-                        const maxBoundary = 1000;
-                        if (width > maxBoundary || height > maxBoundary) {
-                            if (width > height) {
-                                height = Math.round((height * maxBoundary) / width);
-                                width = maxBoundary;
-                            } else {
-                                width = Math.round((width * maxBoundary) / height);
-                                height = maxBoundary;
-                            }
-                        }
-
-                        canvas.width = width;
-                        canvas.height = height;
-
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-
-                        // Compress and export to light size JPEG format
-                        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.75);
-                        resolve(compressedBase64);
-                    };
-                };
-                reader.onerror = (err) => reject(err);
-            });
-        };
-
-        zoomApp.prototype.handleFileSelect = async function(e) {
-            const files = Array.from(e.target.files);
-            if (files.length === 0) return;
-            this.compressing = true;
-            for (const file of files) {
-                try {
-                    const base64Img = await this.processImage(file);
-                    this.formOffer.images.push(base64Img);
-                } catch (err) {
-                    console.log("Error uploading file: ", err);
+                reader.onload = function(event) {
+                    uploadedImagesBase64.push(event.target.result);
                 }
+                reader.readAsDataURL(files[i]);
             }
-            this.compressing = false;
-        };
+        });
 
-        zoomApp.prototype.handleFileDrop = async function(e) {
-            this.dragOver = false;
-            const files = Array.from(e.dataTransfer.files);
-            if (files.length === 0) return;
-            this.compressing = true;
-            for (const file of files) {
-                if (file.type.startsWith('image/')) {
-                    try {
-                        const base64Img = await this.processImage(file);
-                        this.formOffer.images.push(base64Img);
-                    } catch (err) {
-                        console.log("Error processing drag drop file: ", err);
-                    }
-                }
-            }
-            this.compressing = false;
-        };
+        // حفظ أو تحديث العرض
+        function saveOffer() {
+            const title = document.getElementById('form-title-input').value.trim();
+            const desc = document.getElementById('form-desc-input').value.trim();
+            const price = document.getElementById('form-price-input').value.trim();
+            const duration = document.getElementById('form-duration-input').value.trim();
+            const expiry = document.getElementById('form-date-input').value;
+            const visible = document.getElementById('form-visible-input').checked;
+            const editIndex = document.getElementById('edit-index').value;
 
-        zoomApp.prototype.removeFormImage = function(index) {
-            this.formOffer.images.splice(index, 1);
-        };
-
-        // --- MANAGE OFFERRED DEALS DATABASE METHODS ---
-        zoomApp.prototype.saveDeal = async function() {
-            if (!this.formOffer.title.trim() || !this.formOffer.description.trim()) {
-                alert("يرجى ملء جميع الحقول الإلزامية لحفظ العرض.");
+            if(!title || !desc || !price) {
+                alert('يرجى ملء الحقول الأساسية: الاسم، الوصف، والسعر.');
                 return;
             }
 
-            if (this.formOffer.images.length === 0) {
-                // If no images uploaded, supply modern fallback placeholder
-                this.formOffer.images.push('https://placehold.co/800x600/101012/ffffff?text=Studio+Zoom');
-            }
+            const offerData = {
+                title, desc, price, duration, expiry, visible,
+                images: uploadedImagesBase64.length > 0 ? uploadedImagesBase64 : (editIndex !== "" ? offers[editIndex].images : [])
+            };
 
-            if (this.editMode) {
-                // Update Existing Deal
-                this.deals = this.deals.map(deal => {
-                    if (deal.id === this.editId) {
-                        return {
-                            ...deal,
-                            title: this.formOffer.title,
-                            category: this.formOffer.category,
-                            price: this.formOffer.price,
-                            description: this.formOffer.description,
-                            images: [...this.formOffer.images],
-                            visible: this.formOffer.visible
-                        };
-                    }
-                    return deal;
-                });
-                alert("✅ تم تعديل وتحديث بيانات العرض بنجاح!");
+            if(editIndex !== "") {
+                // وضع التعديل
+                offers[editIndex] = offerData;
             } else {
-                // Add New Deal
-                const newDeal = {
-                    id: 'D-' + Date.now(),
-                    title: this.formOffer.title,
-                    category: this.formOffer.category,
-                    price: this.formOffer.price,
-                    description: this.formOffer.description,
-                    images: [...this.formOffer.images],
-                    visible: this.formOffer.visible,
-                    date: new Date().toLocaleDateString('ar-EG')
-                };
-                this.deals.unshift(newDeal);
-                alert("🚀 تم تسجيل وإدراج العرض الفني الجديد بنجاح!");
+                // وضع الإضافة الجديد
+                offers.push(offerData);
             }
 
-            this.resetForm();
-            this.pushToCloud();
-        };
+            localStorage.setItem('studio_zoom_offers', JSON.stringify(offers));
+            alert('تم حفظ التعديلات بنجاح!');
+            resetForm();
+            renderAdminOffersList();
+            renderHomeOffers();
+        }
 
-        zoomApp.prototype.editDeal = function(deal) {
-            this.editMode = true;
-            this.editId = deal.id;
-            this.formOffer = {
-                title: deal.title,
-                category: deal.category,
-                price: deal.price,
-                description: deal.description,
-                images: [...deal.images],
-                visible: deal.visible
-            };
-        };
+        // تفكيك محتويات الفورم لإعادة الاستخدام
+        function resetForm() {
+            document.getElementById('form-title').innerText = "إضافة عرض جديد";
+            document.getElementById('save-btn-text').innerText = "حفظ العرض";
+            document.getElementById('edit-index').value = "";
+            document.getElementById('form-title-input').value = "";
+            document.getElementById('form-desc-input').value = "";
+            document.getElementById('form-price-input').value = "";
+            document.getElementById('form-duration-input').value = "";
+            document.getElementById('form-date-input').value = "";
+            document.getElementById('form-visible-input').checked = true;
+            document.getElementById('form-images-input').value = "";
+            document.getElementById('cancel-edit-btn').style.display = "none";
+            uploadedImagesBase64 = [];
+        }
 
-        zoomApp.prototype.deleteDeal = function(id) {
-            if (confirm("هل أنت متأكد من رغبتك في حذف هذا العرض نهائياً من قاعدة البيانات السحابية؟")) {
-                this.deals = this.deals.filter(deal => deal.id !== id);
-                this.pushToCloud();
-                alert("🗑️ تم حذف العرض بالكامل.");
-            }
-        };
+        // عرض قائمة الإدارة للتحرير والحذف والترتيب
+        function renderAdminOffersList() {
+            const listContainer = document.getElementById('admin-offers-list');
+            listContainer.innerHTML = '';
 
-        zoomApp.prototype.toggleVisibility = function(id) {
-            this.deals = this.deals.map(deal => {
-                if (deal.id === id) {
-                    const newVis = !deal.visible;
-                    return { ...deal, visible: newVis };
-                }
-                return deal;
+            offers.forEach((offer, index) => {
+                listContainer.innerHTML += `
+                    <div class="admin-item-row">
+                        <div>
+                            <strong style="font-size:14px;">${offer.title}</strong>
+                            <div style="font-size:11px; color:var(--text-muted)">
+                                السعر: ${offer.price} | الحالة: ${offer.visible ? 'ظاهر' : 'مخفي'}
+                            </div>
+                        </div>
+                        <div class="admin-actions">
+                            <button class="btn btn-outline" style="padding:6px 10px; font-size:12px;" onclick="loadOfferToEdit(${index})"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn btn-outline" style="padding:6px 10px; font-size:12px;" onclick="moveOffer(${index}, -1)"><i class="fa-solid fa-arrow-up"></i></button>
+                            <button class="btn btn-outline" style="padding:6px 10px; font-size:12px;" onclick="moveOffer(${index}, 1)"><i class="fa-solid fa-arrow-down"></i></button>
+                            <button class="btn btn-danger" style="padding:6px 10px; font-size:12px;" onclick="deleteOffer(${index})"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
             });
-            this.pushToCloud();
-        };
+        }
 
-        // Handle Sorting Movement
-        zoomApp.prototype.moveDeal = function(index, direction) {
+        // تحميل بيانات العرض داخل الفورم لتعديله
+        function loadOfferToEdit(index) {
+            const offer = offers[index];
+            document.getElementById('form-title').innerText = "تعديل العرض: " + offer.title;
+            document.getElementById('save-btn-text').innerText = "تحديث العرض الحالي";
+            document.getElementById('edit-index').value = index;
+            
+            document.getElementById('form-title-input').value = offer.title;
+            document.getElementById('form-desc-input').value = offer.desc;
+            document.getElementById('form-price-input').value = offer.price;
+            document.getElementById('form-duration-input').value = offer.duration || '';
+            document.getElementById('form-date-input').value = offer.expiry || '';
+            document.getElementById('form-visible-input').checked = offer.visible;
+            
+            document.getElementById('cancel-edit-btn').style.display = "block";
+            window.scrollTo(0, 150);
+        }
+
+        // حذف العرض
+        function deleteOffer(index) {
+            if(confirm('هل أنت متأكد من رغبتك في حذف هذا العرض نهائياً؟')) {
+                offers.splice(index, 1);
+                localStorage.setItem('studio_zoom_offers', JSON.stringify(offers));
+                renderAdminOffersList();
+                renderHomeOffers();
+            }
+        }
+
+        // تغيير ترتيب العروض (صعوداً وهبوطاً)
+        function moveOffer(index, direction) {
             const targetIndex = index + direction;
-            if (targetIndex < 0 || targetIndex >= this.deals.length) return;
+            if (targetIndex < 0 || targetIndex >= offers.length) return; // الحماية من الخروج من الحدود
             
-            // Swap items
-            const temp = this.deals[index];
-            this.deals[index] = this.deals[targetIndex];
-            this.deals[targetIndex] = temp;
+            // تبديل الأماكن
+            const temp = offers[index];
+            offers[index] = offers[targetIndex];
+            offers[targetIndex] = temp;
             
-            this.pushToCloud();
-        };
+            localStorage.setItem('studio_zoom_offers', JSON.stringify(offers));
+            renderAdminOffersList();
+            renderHomeOffers();
+        }
 
-        zoomApp.prototype.resetForm = function() {
-            this.editMode = false;
-            this.editId = null;
-            this.formOffer = {
-                title: '',
-                category: 'تعديل بورتريه',
-                price: '',
-                description: '',
-                images: [],
-                visible: true
-            };
-        };
-
-        zoomApp.prototype.forcePushToCloud = function() {
-            this.pushToCloud().then(() => {
-                alert("☁️ تم ربط وتزامن وحفظ قاعدة عروض ستديو زوم بنجاح على السيرفر السحابي الآمن!");
-            });
-        };
+        // التشغيل المبدئي عند تحميل الصفحة لأول مرة
+        document.addEventListener("DOMContentLoaded", () => {
+            renderHomeOffers();
+        });
     </script>
 </body>
 </html>
